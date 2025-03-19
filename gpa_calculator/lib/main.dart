@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpa_calculator/Welcome.dart';
 
 void main() {
   runApp(MyApp());
@@ -159,14 +160,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system, // Automatically switch between light and dark mode
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My App'),
-        ),
-        body: Center(
-          child: Text('Hello, World!'),
-        ),
-      ),
+      home: WelcomeScreen(),
     );
   }
 }
