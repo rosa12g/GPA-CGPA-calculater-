@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App Logo or Icon
+            
             Icon(
               Icons.calculate,
               size: 100,
@@ -20,7 +21,6 @@ class WelcomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            // Welcome Title
             Text(
               'Welcome to the GPA/CGPA Calculator!',
               style: Theme.of(context).textTheme.displayLarge,
@@ -28,26 +28,25 @@ class WelcomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
 
-            // Subtitle
             Text(
               'Track and calculate your academic performance with ease.',
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 40),
-
-            // Get Started Button
             ElevatedButton(
               onPressed: () {
-                // Navigate to the next screen
+              
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              ),
               child: Text(
                 'Get Started',
                 style: Theme.of(context).textTheme.labelLarge,
+              )
               ),
-            ),
+            
           ],
         ),
       ),
