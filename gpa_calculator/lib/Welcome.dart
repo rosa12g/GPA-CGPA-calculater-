@@ -4,10 +4,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome', style: Theme.of(context).textTheme.titleLarge),
-        centerTitle: true,
-      ),
+    
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -36,14 +33,14 @@ class WelcomeScreen extends StatelessWidget {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-              
+                
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               child: Text(
                 'Get Started',
-                style: Theme.of(context).textTheme.labelLarge,
+              
               )
               ),
             

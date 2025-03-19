@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
           onPrimary: Colors.white, 
           surface: Color(0xFFF3F5F9), 
           background: Color(0xFFF3F5F9), 
-          error: Color(0xFFD9534F), // Red for error states
-          onSurface: Color(0xFF444444), // Dark gray text for surface
+          error: Color(0xFFD9534F), 
+          onSurface: Color(0xFF444444), 
         ),
         textTheme: TextTheme(
           displayLarge: TextStyle(
@@ -138,14 +138,14 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF1D4E89), // Blue button color
-            foregroundColor: Colors.white, // Text color (replaces onPrimary)
+            foregroundColor: Colors.white, 
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         cardTheme: CardTheme(
-          color: Color(0xFF333333), // Dark card color
+          color: Color(0xFF333333), 
           elevation: 4,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
