@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_calculator/screens/analysis_screen.dart';
+import 'package:gpa_calculator/screens/analaysis_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                     icon: Icons.calculate,
                     title: "GPA Calculator",
                     onTap: () {
-                      // Navigate to GPA Calculator Screen
+                     
                     },
                   ),
                   _buildFeatureCard(
