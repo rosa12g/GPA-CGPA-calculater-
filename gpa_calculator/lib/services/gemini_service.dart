@@ -13,14 +13,31 @@ class GeminiService {
       Uri.parse("$baseUrl?key=$apiKey"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "prompt": {"text": prompt},
+        "prompt": {
+          "text": prompt,
+        },
       }),
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data["candidates"]?[0]["output"] ?? "No suggestion available.";
+      try {
+        final data = jsonDecode(response.body);
+    
+        print("API Response: $data");
+
+        // Ensure the response structure is what you expect
+        if (data["candidates"] != null && data["candidates"].isNotEmpty) {
+          return data["candidates"][0]["output"] ?? "No suggestion available.";
+        } else {
+          return "No suggestion available.";
+        }
+      } catch (e) {
+        // Handle JSON parsing errors
+        return "Error parsing response: $e";
+      }
     } else {
+      // Log the error for debugging purposes
+      print("API Error: ${response.statusCode} - ${response.body}");
       return "Error: ${response.body}";
     }
   }
