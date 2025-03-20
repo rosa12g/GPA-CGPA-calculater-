@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'add_course_screen.dart';
+import 'package:gpa_calculator/logics/Calculations.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -23,9 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           content: TextField(
             controller: semesterController,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: 'Enter number of semesters',
-            ),
+            decoration: InputDecoration(hintText: 'Enter number of semesters'),
           ),
           actions: [
             TextButton(
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('OK', style: TextStyle(color: Color(0xFF8A4F2A))),
+              child: Text('OK', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
             ),
           ],
         );
@@ -50,29 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _calculateGPAandCGPA() {
-    double totalCGPA = 0;
-    double totalCredits = 0;
-    Map<int, double> semesterGPAs = {};
-
-    for (int i = 0; i < (_numSemesters ?? 0); i++) {
-      double semesterPoints = 0;
-      double semesterCredits = 0;
-      for (var course in _courses[i]!) {
-        double credit = double.tryParse(course['credits'] ?? '0') ?? 0;
-        double grade = double.tryParse(course['grade'] ?? '0') ?? 0;
-        semesterPoints += credit * grade;
-        semesterCredits += credit;
-      }
-      double semesterGPA = semesterCredits > 0 ? semesterPoints / semesterCredits : 0;
-      semesterGPAs[i] = semesterGPA;
-      totalCGPA += semesterGPA * semesterCredits;
-      totalCredits += semesterCredits;
-    }
-    double finalCGPA = totalCredits > 0 ? totalCGPA / totalCredits : 0;
-
+    final result = GPAandCGPACalculator.calculateGPAandCGPA(_numSemesters, _courses);
     setState(() {
-      _semesterGPAs = semesterGPAs;
-      _finalCGPA = finalCGPA;
+      _semesterGPAs = result['semesterGPAs'];
+      _finalCGPA = result['finalCGPA'];
     });
   }
 
@@ -135,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           SizedBox(height: 10),
                           Table(
-                            border: TableBorder.all(color: Color(0xFF5C4033).withOpacity(0.3)),
+                            border: TableBorder.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
                             columnWidths: {
                               0: FlexColumnWidth(2),
                               1: FlexColumnWidth(1),
@@ -144,12 +125,24 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             children: [
                               TableRow(
-                                decoration: BoxDecoration(color: Color(0xFFD57A66).withOpacity(0.1)),
+                                decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary.withOpacity(0.1)),
                                 children: [
-                                  Padding(padding: EdgeInsets.all(8.0), child: Text('Course', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
-                                  Padding(padding: EdgeInsets.all(8.0), child: Text('Credits', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
-                                  Padding(padding: EdgeInsets.all(8.0), child: Text('Grade', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
-                                  Padding(padding: EdgeInsets.all(8.0), child: Text('Actions', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold))),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Course', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Credits', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Grade', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Actions', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                  ),
                                 ],
                               ),
                               for (int i = 0; i < _courses[semester]!.length; i++)
@@ -164,11 +157,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           IconButton(
-                                            icon: Icon(Icons.edit, color: Color(0xFF8A4F2A), size: 20),
+                                            icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary, size: 20),
                                             onPressed: () => _editCourse(semester, i),
                                           ),
                                           IconButton(
-                                            icon: Icon(Icons.delete, color: Color(0xFFBA3F1D), size: 20),
+                                            icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error, size: 20),
                                             onPressed: () => _deleteCourse(semester, i),
                                           ),
                                         ],
@@ -197,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               icon: Icon(Icons.add, size: 18),
                               label: Text('Add Course'),
-                              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFD57A66)),
+                              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           if (_semesterGPAs != null && _semesterGPAs!.containsKey(semester)) ...[
@@ -225,83 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: _numSemesters != null ? _calculateGPAandCGPA : null,
               child: Text('Calculate GPA & CGPA'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AddCourseScreen extends StatefulWidget {
-  final int semester;
-  final Map<String, String>? initialCourse;
-
-  AddCourseScreen({required this.semester, this.initialCourse});
-
-  @override
-  _AddCourseScreenState createState() => _AddCourseScreenState();
-}
-
-class _AddCourseScreenState extends State<AddCourseScreen> {
-  late TextEditingController _courseController;
-  late TextEditingController _creditController;
-  late TextEditingController _gradeController;
-
-  @override
-  void initState() {
-    super.initState();
-    _courseController = TextEditingController(text: widget.initialCourse?['course'] ?? '');
-    _creditController = TextEditingController(text: widget.initialCourse?['credits'] ?? '');
-    _gradeController = TextEditingController(text: widget.initialCourse?['grade'] ?? '');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.initialCourse == null ? 'Add Course - Semester ${widget.semester + 1}' : 'Edit Course - Semester ${widget.semester + 1}',
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _courseController,
-              decoration: InputDecoration(
-                labelText: 'Course Name',
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _creditController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Credit Hours',
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _gradeController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Grade (4.0 scale)',
-              ),
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {
-                if (_courseController.text.isNotEmpty && _creditController.text.isNotEmpty && _gradeController.text.isNotEmpty) {
-                  Navigator.pop(context, {
-                    'course': _courseController.text,
-                    'credits': _creditController.text,
-                    'grade': _gradeController.text,
-                  });
-                }
-              },
-              child: Text(widget.initialCourse == null ? 'Save Course' : 'Update Course'),
             ),
           ],
         ),
