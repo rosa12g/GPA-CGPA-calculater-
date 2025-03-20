@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GeminiService {
-  static const String apiKey = "AIzaSyDTyk8ZXKpqi1fw72sSnO7MBLHC7308ozs"; 
+  static const String apiKey = "AIzaSyDTyk8ZXKpqi1fw72sSnO7MBLHC7308ozs";
   static const String baseUrl =
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText";
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
   static Future<String?> analyzeCourses(Map<String, double> grades) async {
     String prompt = _generatePrompt(grades);
@@ -13,30 +13,31 @@ class GeminiService {
       Uri.parse("$baseUrl?key=$apiKey"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "prompt": {
-          "text": prompt,
-        },
+        "contents": [
+          {
+            "parts": [
+              {"text": prompt}
+            ]
+          }
+        ]
       }),
     );
 
     if (response.statusCode == 200) {
       try {
         final data = jsonDecode(response.body);
-    
         print("API Response: $data");
 
-        // Ensure the response structure is what you expect
         if (data["candidates"] != null && data["candidates"].isNotEmpty) {
-          return data["candidates"][0]["output"] ?? "No suggestion available.";
+          return data["candidates"][0]["content"]["parts"][0]["text"] ??
+              "No suggestion available.";
         } else {
           return "No suggestion available.";
         }
       } catch (e) {
-        // Handle JSON parsing errors
         return "Error parsing response: $e";
       }
     } else {
-      // Log the error for debugging purposes
       print("API Error: ${response.statusCode} - ${response.body}");
       return "Error: ${response.body}";
     }
