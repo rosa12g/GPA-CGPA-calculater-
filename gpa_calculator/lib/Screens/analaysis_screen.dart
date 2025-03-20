@@ -28,76 +28,90 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("AI Course Analysis", style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.deepPurple, // Deep purple app bar
         elevation: 0,
+        centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        // Add this to handle overflow
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Your Courses:",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            SizedBox(height: 10),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: widget.grades.entries.map(
-                    (e) => ListTile(
-                      title: Text(e.key, style: Theme.of(context).textTheme.bodyLarge),
-                      trailing: Text(
-                        e.value.toStringAsFixed(2),
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                  ).toList(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.deepPurple.shade50, Colors.white], // Gradient background
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Your Courses:",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple, // Deep purple text
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: analyzePerformance,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: Text(
-                  "Analyze My Weaknesses",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            isLoading
-                ? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary))
-                : analysisResult != null
-                    ? Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            "AI Suggestion:\n$analysisResult",
-                            style: Theme.of(context).textTheme.bodyLarge,
+              SizedBox(height: 10),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: widget.grades.entries.map(
+                      (e) => ListTile(
+                        title: Text(
+                          e.key,
+                          style: TextStyle(fontSize: 16, color: Colors.black87),
+                        ),
+                        trailing: Text(
+                          e.value.toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.deepPurple, // Deep purple for grades
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    : Container(),
-          ],
+                      ),
+                    ).toList(),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: analyzePerformance,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple, // Deep purple button
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: Text(
+                    "Analyze My Weaknesses",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              isLoading
+                  ? Center(child: CircularProgressIndicator(color: Colors.deepPurple)) // Deep purple loading indicator
+                  : analysisResult != null
+                      ? Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              "AI Suggestion:\n$analysisResult",
+                              style: TextStyle(fontSize: 16, color: Colors.black87),
+                            ),
+                          ),
+                        )
+                      : Container(),
+            ],
+          ),
         ),
       ),
     );
