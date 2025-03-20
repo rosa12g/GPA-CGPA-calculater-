@@ -8,67 +8,72 @@ class WelcomeScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF6A11CB), 
-              Color(0xFF2575FC), 
-            ],
+            colors: [Colors.blueAccent, Colors.purpleAccent],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/OIP.jpg',
-                height: 250,
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Unlock Your Academic Potential',
-                style: TextStyle(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // App Logo or Icon
+                Icon(
+                  Icons.school, // Replace with your app logo or icon
+                  size: 100,
                   color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Stay on top of your grades and achieve your goals with our easy-to-use tools.',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontSize: 16,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'Start Now',
+                SizedBox(height: 20),
+
+                // App Name
+                Text(
+                  'GradeMaster',
                   style: TextStyle(
-                    color: Color(0xFF6A11CB), 
-                    fontSize: 18,
+                    color: Colors.white,
+                    fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 10),
+
+                // Tagline
+                Text(
+                  'Your Academic Success, Simplified',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 40),
+
+                // Get Started Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    'Get Started',
+                    style: TextStyle(
+                      color: Colors.blueAccent,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
