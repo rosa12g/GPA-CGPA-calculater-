@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_course_screen.dart';
 import 'package:gpa_calculator/logics/Calculations.dart';
-import 'analaysis_screen.dart'; 
+import 'analaysis_screen.dart'; // Import the AnalysisScreen
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -134,61 +134,67 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           SizedBox(height: 10),
-                          Table(
-                            border: TableBorder.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
-                            columnWidths: {
-                              0: FlexColumnWidth(2),
-                              1: FlexColumnWidth(1),
-                              2: FlexColumnWidth(1),
-                              3: FixedColumnWidth(80),
-                            },
-                            children: [
-                              TableRow(
-                                decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary.withOpacity(0.1)),
+                          LayoutBuilder(
+                            builder: (context, constraints) {
+                              // Dynamically adjust column widths based on available space
+                              double availableWidth = constraints.maxWidth;
+                              return Table(
+                                border: TableBorder.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
+                                columnWidths: {
+                                  0: FixedColumnWidth(availableWidth * 0.4), // 40% for Course
+                                  1: FixedColumnWidth(availableWidth * 0.2), // 20% for Credits
+                                  2: FixedColumnWidth(availableWidth * 0.2), // 20% for Grade
+                                  3: FixedColumnWidth(availableWidth * 0.2), // 20% for Actions
+                                },
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Course', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Credits', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Grade', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text('Actions', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-                                  ),
-                                ],
-                              ),
-                              for (int i = 0; i < _courses[semester]!.length; i++)
-                                TableRow(
-                                  children: [
-                                    Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['course'] ?? 'N/A')),
-                                    Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['credits'] ?? '0')),
-                                    Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['grade'] ?? '0')),
-                                    Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          IconButton(
-                                            icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary, size: 20),
-                                            onPressed: () => _editCourse(semester, i),
-                                          ),
-                                          IconButton(
-                                            icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error, size: 20),
-                                            onPressed: () => _deleteCourse(semester, i),
-                                          ),
-                                        ],
+                                  TableRow(
+                                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary.withOpacity(0.1)),
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Course', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
                                       ),
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Credits', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Grade', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Actions', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                      ),
+                                    ],
+                                  ),
+                                  for (int i = 0; i < _courses[semester]!.length; i++)
+                                    TableRow(
+                                      children: [
+                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['course'] ?? 'N/A')),
+                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['credits'] ?? '0')),
+                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['grade'] ?? '0')),
+                                        Padding(
+                                          padding: EdgeInsets.all(4.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              IconButton(
+                                                icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary, size: 20),
+                                                onPressed: () => _editCourse(semester, i),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error, size: 20),
+                                                onPressed: () => _deleteCourse(semester, i),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                            ],
+                                ],
+                              );
+                            },
                           ),
                           SizedBox(height: 12),
                           Align(
