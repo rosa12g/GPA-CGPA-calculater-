@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -43,6 +44,7 @@ class WelcomeScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              ),
               child: Text(
                 'Get Started',
                 style: Theme.of(context).textTheme.labelLarge,
