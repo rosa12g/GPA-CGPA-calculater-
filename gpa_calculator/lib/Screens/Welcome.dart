@@ -7,11 +7,7 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.purpleAccent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color(0xFF222222)
         ),
         child: Center(
           child: Padding(
@@ -19,11 +15,11 @@ class WelcomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // App Logo or Icon
+              
                 Icon(
-                  Icons.school, // Replace with your app logo or icon
+                  Icons.school, 
                   size: 100,
-                  color: Colors.white,
+                  color: Color(0xFFFCAB57),
                 ),
                 SizedBox(height: 20),
 
@@ -31,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   'GradeMaster',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFFFEC674),
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
@@ -57,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor:Color(0xFFFCAB57),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -66,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: Text(
                     'Get Started',
                     style: TextStyle(
-                      color: Colors.blueAccent,
+                      color:Color(0xFF222222),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
