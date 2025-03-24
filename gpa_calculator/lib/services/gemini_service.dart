@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GeminiService {
-  static const String apiKey = "AIzaSyDTyk8ZXKpqi1fw72sSnO7MBLHC7308ozs";
   static const String baseUrl =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
   static Future<String?> analyzeCourses(Map<String, double> grades) async {
+    
+    final apiKey = dotenv.env['GEMINI_API_KEY'];
+
     String prompt = _generatePrompt(grades);
 
     final response = await http.post(
