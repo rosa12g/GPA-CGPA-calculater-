@@ -15,10 +15,27 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   bool isLoading = false;
 
   void analyzePerformance() async {
-    setState(() => isLoading = true);
-    String? result = await GeminiService.analyzeCourses(widget.grades);
+    if (widget.grades.isEmpty) {
+      setState(() {
+        analysisResult = "Please enter at least one course grade.";
+      });
+      return;
+    }
+
     setState(() {
-      analysisResult = result;
+      isLoading = true;
+      analysisResult = null;
+    });
+
+    String? result;
+    try {
+      result = await GeminiService.analyzeCourses(widget.grades);
+    } catch (e) {
+      result = "Error occurred: $e";
+    }
+
+    setState(() {
+      analysisResult = result ?? "No response from AI.";
       isLoading = false;
     });
   }
@@ -28,18 +45,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("AI Course Analysis", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.deepPurple, // Deep purple app bar
+        backgroundColor: Color(0xFFFCAB57), // Orange theme
         elevation: 0,
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.deepPurple.shade50, Colors.white], // Gradient background
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: BoxDecoration(color: Color(0XFFfff3e2)), // Background
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -50,10 +61,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple, // Deep purple text
+                  color: Color(0xFFFCAB57),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15), // Increased spacing
+
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -70,7 +82,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                           e.value.toStringAsFixed(2),
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.deepPurple, // Deep purple for grades
+                            color: Color(0xFF333333), 
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -80,11 +92,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 ),
               ),
               SizedBox(height: 20),
+
               Center(
                 child: ElevatedButton(
                   onPressed: analyzePerformance,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple, // Deep purple button
+                    backgroundColor: Color.fromARGB(255, 7, 7, 8),
                     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -95,21 +108,21 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              isLoading
-                  ? Center(child: CircularProgressIndicator(color: Colors.deepPurple)) // Deep purple loading indicator
-                  : analysisResult != null
-                      ? Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              "AI Suggestion:\n$analysisResult",
-                              style: TextStyle(fontSize: 16, color: Colors.black87),
-                            ),
-                          ),
-                        )
-                      : Container(),
+
+              if (isLoading)
+                Center(child: CircularProgressIndicator(color: Colors.deepPurple))
+              else if (analysisResult != null)
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "AI Suggestion:\n$analysisResult",
+                      style: TextStyle(fontSize: 16, color: Colors.black87),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
