@@ -21,12 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
         TextEditingController semesterController = TextEditingController();
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          title: Text('Start Your Journey', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+          backgroundColor: Color.fromARGB(255, 255, 244, 232),
+          title: Text('Add the number of semester', 
+                   style: TextStyle(fontSize: 20, 
+                   fontWeight: FontWeight.bold,
+                    color: Color(0xff222222)
+                    )
+                    ),
           content: TextField(
             controller: semesterController,
             keyboardType: TextInputType.number,
+          
             decoration: InputDecoration(
               hintText: 'Enter number of semesters',
+              fillColor:   Color.fromARGB(255, 233, 230, 228),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             ),
           ),
@@ -44,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('OK', style: TextStyle(color: Colors.deepPurple)),
+              child: Text('OK', style: TextStyle(color: Color(0xff222222))),
             ),
           ],
         );
@@ -108,18 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GradeMaster', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-        backgroundColor: Colors.deepPurple,
+        title: Text('GradeMaster', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color:Color(0xFF222222))),
+        backgroundColor:Color(0xFFFCAB57),
         elevation: 0,
         centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.deepPurple.shade50, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          color: Color(0XFFfff3e2),
         ),
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -128,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 onPressed: _askSemesterCount,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                   backgroundColor:Color(0xFF222222),
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: Text('Set Up Your Semesters', style: TextStyle(color: Colors.white, fontSize: 16)),
@@ -139,10 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView.builder(
                   itemCount: _numSemesters ?? 0,
                   itemBuilder: (context, semester) {
+                    //card for table
                     return Card(
+                     
                       margin: EdgeInsets.symmetric(vertical: 10.0),
                       elevation: 4,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      color:  Color(0xFFFEC674),
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Column(
@@ -150,22 +157,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text(
                               'Semester ${semester + 1}',
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff222222)),
                             ),
                             SizedBox(height: 10),
                             SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Table(
-                                border: TableBorder.all(color: Colors.grey.withOpacity(0.3)),
+                              scrollDirection: Axis.horizontal, //scroll
+                              child: Table( //table added
+                                border: TableBorder.all(color: Colors.black),
                                 columnWidths: {
-                                  0: FixedColumnWidth(150), // Course
+                                  0: FixedColumnWidth(80), // Course
                                   1: FixedColumnWidth(80),  // Credits
                                   2: FixedColumnWidth(80),  // Grade
                                   3: FixedColumnWidth(80),  // Actions
                                 },
                                 children: [
                                   TableRow(
-                                    decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.1)),
+                                    decoration: BoxDecoration(color:  Color(0XFFfff3e2)),
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
@@ -232,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 icon: Icon(Icons.add, size: 18),
                                 label: Text('Add Course'),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.deepPurple,
+                                  backgroundColor: Color(0xFF222222),
                                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
@@ -256,14 +263,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 16),
                 Text(
                   'Your Final CGPA: ${_finalCGPA!.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color:  Color(0xFFFCAB57),)
                 ),
               ],
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _numSemesters != null ? _calculateGPAandCGPA : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: Color(0xFF222222),
                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -273,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 onPressed: _finalCGPA != null ? _navigateToAnalysis : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: Color(0xFF222222),
                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
