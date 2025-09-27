@@ -20,22 +20,29 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         TextEditingController semesterController = TextEditingController();
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          backgroundColor: Color.fromARGB(255, 255, 244, 232),
-          title: Text('Add the number of semester', 
-                   style: TextStyle(fontSize: 20, 
-                   fontWeight: FontWeight.bold,
-                    color: Color(0xff222222)
-                    )
-                    ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.grey[900],
+          title: Text(
+            'Enter Semester Count',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.cyanAccent,
+            ),
+          ),
           content: TextField(
             controller: semesterController,
             keyboardType: TextInputType.number,
-          
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              hintText: 'Enter number of semesters',
-              fillColor:   Color.fromARGB(255, 233, 230, 228),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              hintText: 'Number of semesters',
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              filled: true,
+              fillColor: Colors.grey[800],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
           actions: [
@@ -52,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text('OK', style: TextStyle(color: Color(0xff222222))),
+              child: Text('OK', style: TextStyle(color: Colors.cyanAccent)),
             ),
           ],
         );
@@ -116,177 +123,266 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GradeMaster', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color:Color(0xFF222222))),
-        backgroundColor:Color(0xFFFCAB57),
+        title: Text(
+          'GradeMaster',
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: 1.2,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
       ),
+      extendBodyBehindAppBar: true,
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0XFFfff3e2),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.grey[900]!,
+              Colors.blueGrey[900]!,
+            ],
+          ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              ElevatedButton(
-                onPressed: _askSemesterCount,
-                style: ElevatedButton.styleFrom(
-                   backgroundColor:Color(0xFF222222),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ElevatedButton(
+                  onPressed: _askSemesterCount,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.cyanAccent,
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    elevation: 8,
+                  ),
+                  child: Text(
+                    'Setup Semesters',
+                    style: TextStyle(
+                      color: Colors.grey[900],
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                child: Text('Set Up Your Semesters', style: TextStyle(color: Colors.white, fontSize: 16)),
-              ),
-              SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _numSemesters ?? 0,
-                  itemBuilder: (context, semester) {
-                    //card for table
-                    return Card(
-                     
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      color:  Color(0xFFFEC674),
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Semester ${semester + 1}',
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff222222)),
-                            ),
-                            SizedBox(height: 10),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal, //scroll
-                              child: Table( //table added
-                                border: TableBorder.all(color: Colors.black),
-                                columnWidths: {
-                                  0: FixedColumnWidth(80), // Course
-                                  1: FixedColumnWidth(80),  // Credits
-                                  2: FixedColumnWidth(80),  // Grade
-                                  3: FixedColumnWidth(80),  // Actions
-                                },
-                                children: [
-                                  TableRow(
-                                    decoration: BoxDecoration(color:  Color(0XFFfff3e2)),
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Course', style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Credits', style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Grade', style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold)),
-                                      ),
-                                    ],
-                                  ),
-                                  for (int i = 0; i < _courses[semester]!.length; i++)
+                SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _numSemesters ?? 0,
+                    itemBuilder: (context, semester) {
+                      return Card(
+                        margin: EdgeInsets.symmetric(vertical: 12.0),
+                        elevation: 8,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        color: Colors.grey[850],
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Semester ${semester + 1}',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.cyanAccent,
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Table(
+                                  border: TableBorder.all(color: Colors.grey[700]!),
+                                  columnWidths: {
+                                    0: FixedColumnWidth(100),
+                                    1: FixedColumnWidth(80),
+                                    2: FixedColumnWidth(80),
+                                    3: FixedColumnWidth(100),
+                                  },
+                                  children: [
                                     TableRow(
+                                      decoration: BoxDecoration(color: Colors.grey[800]),
                                       children: [
-                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['course'] ?? 'N/A')),
-                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['credits'] ?? '0')),
-                                        Padding(padding: EdgeInsets.all(8.0), child: Text(_courses[semester]![i]['grade'] ?? '0')),
                                         Padding(
-                                          padding: EdgeInsets.all(4.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              IconButton(
-                                                icon: Icon(Icons.edit, color: Colors.deepPurple, size: 20),
-                                                onPressed: () => _editCourse(semester, i),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.delete, color: Colors.red, size: 20),
-                                                onPressed: () => _deleteCourse(semester, i),
-                                              ),
-                                            ],
-                                          ),
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Course', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Credits', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Grade', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                                         ),
                                       ],
                                     ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => AddCourseScreen(semester: semester)),
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      _courses[semester]!.add(result);
-                                      _semesterGPAs = null;
-                                      _finalCGPA = null;
-                                    });
-                                  }
-                                },
-                                icon: Icon(Icons.add, size: 18),
-                                label: Text('Add Course'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF222222),
-                                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    for (int i = 0; i < _courses[semester]!.length; i++)
+                                      TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _courses[semester]![i]['course'] ?? 'N/A',
+                                              style: TextStyle(color: Colors.white70),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _courses[semester]![i]['credits'] ?? '0',
+                                              style: TextStyle(color: Colors.white70),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _courses[semester]![i]['grade'] ?? '0',
+                                              style: TextStyle(color: Colors.white70),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(Icons.edit, color: Colors.cyanAccent, size: 20),
+                                                  onPressed: () => _editCourse(semester, i),
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.delete, color: Colors.redAccent, size: 20),
+                                                  onPressed: () => _deleteCourse(semester, i),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            if (_semesterGPAs != null && _semesterGPAs!.containsKey(semester)) ...[
-                              SizedBox(height: 12),
-                              Text(
-                                'Semester GPA: ${_semesterGPAs![semester]!.toStringAsFixed(2)}',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              SizedBox(height: 16),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton.icon(
+                                  onPressed: () async {
+                                    final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => AddCourseScreen(semester: semester)),
+                                    );
+                                    if (result != null) {
+                                      setState(() {
+                                        _courses[semester]!.add(result);
+                                        _semesterGPAs = null;
+                                        _finalCGPA = null;
+                                      });
+                                    }
+                                  },
+                                  icon: Icon(Icons.add, size: 18, color: Colors.grey[900]),
+                                  label: Text(
+                                    'Add Course',
+                                    style: TextStyle(color: Colors.grey[900]),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.cyanAccent,
+                                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                                    elevation: 4,
+                                  ),
+                                ),
                               ),
+                              if (_semesterGPAs != null && _semesterGPAs!.containsKey(semester)) ...[
+                                SizedBox(height: 12),
+                                Text(
+                                  'Semester GPA: ${_semesterGPAs![semester]!.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.greenAccent,
+                                  ),
+                                ),
+                              ],
                             ],
-                          ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                if (_finalCGPA != null) ...[
+                  SizedBox(height: 20),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.cyanAccent, Colors.greenAccent],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Final CGPA: ${_finalCGPA!.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[900],
+                      ),
+                    ),
+                  ),
+                ],
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _numSemesters != null ? _calculateGPAandCGPA : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.cyanAccent,
+                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        elevation: 8,
+                      ),
+                      child: Text(
+                        'Calculate GPA',
+                        style: TextStyle(
+                          color: Colors.grey[900],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-              if (_finalCGPA != null) ...[
-                SizedBox(height: 16),
-                Text(
-                  'Your Final CGPA: ${_finalCGPA!.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color:  Color(0xFFFCAB57),)
+                    ),
+                    ElevatedButton(
+                      onPressed: _finalCGPA != null ? _navigateToAnalysis : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.greenAccent,
+                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        elevation: 8,
+                      ),
+                      child: Text(
+                        'Analyze',
+                        style: TextStyle(
+                          color: Colors.grey[900],
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _numSemesters != null ? _calculateGPAandCGPA : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF222222),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: Text('Calculate GPA & CGPA', style: TextStyle(color: Colors.white, fontSize: 16)),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _finalCGPA != null ? _navigateToAnalysis : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF222222),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: Text('Analyze My Performance', style: TextStyle(color: Colors.white, fontSize: 16)),
-              ),
-            ],
+            ),
           ),
         ),
       ),

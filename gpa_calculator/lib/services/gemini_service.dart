@@ -7,10 +7,16 @@ class GeminiService {
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
   static Future<String?> analyzeCourses(Map<String, double> grades) async {
-    
+    await dotenv.load();
+
     final apiKey = dotenv.env['GEMINI_API_KEY'];
 
+    if (apiKey == null) {
+      return "Error: GEMINI_API_KEY is not set in the .env file.";
+    }
+
     String prompt = _generatePrompt(grades);
+    print("Generated prompt: $prompt");
 
     final response = await http.post(
       Uri.parse("$baseUrl?key=$apiKey"),
@@ -32,8 +38,7 @@ class GeminiService {
         print("API Response: $data");
 
         if (data["candidates"] != null && data["candidates"].isNotEmpty) {
-          return data["candidates"][0]["content"]["parts"][0]["text"] ??
-              "No suggestion available.";
+          return data["candidates"][0]["content"]["parts"][0]["text"] ?? "No suggestion available.";
         } else {
           return "No suggestion available.";
         }

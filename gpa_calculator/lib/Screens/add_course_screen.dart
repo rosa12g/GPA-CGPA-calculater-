@@ -14,7 +14,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   late TextEditingController _courseController;
   late TextEditingController _creditController;
   late TextEditingController _gradeController;
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     super.dispose();
   }
 
- 
   String? _validateCredit(String? value) {
     if (value == null || value.isEmpty) {
       return 'Credit hours are required';
@@ -43,7 +42,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     return null;
   }
 
-  
   String? _validateGrade(String? value) {
     if (value == null || value.isEmpty) {
       return 'Grade is required';
@@ -61,94 +59,171 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
           widget.initialCourse == null
-              ? 'Add Course - Semester ${widget.semester + 1}'
-              : 'Edit Course - Semester ${widget.semester + 1}',
+              ? 'Add Course - Sem ${widget.semester + 1}'
+              : 'Edit Course - Sem ${widget.semester + 1}',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
       ),
-      body: SingleChildScrollView(
-      
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey, 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.grey[900]!,
+              Colors.blueGrey[900]!,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: true,
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _courseController,
-                        decoration: InputDecoration(
-                          labelText: 'Course Name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                  padding: EdgeInsets.all(20.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Card(
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          color: Colors.grey[850],
+                          child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _courseController,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    labelText: 'Course Name',
+                                    labelStyle: TextStyle(color: Colors.cyanAccent),
+                                    filled: true,
+                                    fillColor: Colors.grey[800],
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: Colors.cyanAccent, width: 2),
+                                    ),
+                                    prefixIcon: Icon(Icons.book, color: Colors.cyanAccent),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Course name is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 20),
+                                TextFormField(
+                                  controller: _creditController,
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    labelText: 'Credit Hours',
+                                    labelStyle: TextStyle(color: Colors.cyanAccent),
+                                    filled: true,
+                                    fillColor: Colors.grey[800],
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: Colors.cyanAccent, width: 2),
+                                    ),
+                                    prefixIcon: Icon(Icons.hourglass_empty, color: Colors.cyanAccent),
+                                  ),
+                                  validator: _validateCredit,
+                                ),
+                                SizedBox(height: 20),
+                                TextFormField(
+                                  controller: _gradeController,
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    labelText: 'Grade (0-4.0)',
+                                    labelStyle: TextStyle(color: Colors.cyanAccent),
+                                    filled: true,
+                                    fillColor: Colors.grey[800],
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(color: Colors.cyanAccent, width: 2),
+                                    ),
+                                    prefixIcon: Icon(Icons.grade, color: Colors.cyanAccent),
+                                  ),
+                                  validator: _validateGrade,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Course name is required';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        controller: _creditController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Credit Hours',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        SizedBox(height: 30),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.pop(context, {
+                                'course': _courseController.text,
+                                'credits': _creditController.text,
+                                'grade': _gradeController.text,
+                              });
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            elevation: 10,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.cyanAccent, Colors.greenAccent],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                            child: Text(
+                              widget.initialCourse == null ? 'Save Course' : 'Update Course',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[900],
+                              ),
+                            ),
                           ),
                         ),
-                        validator: _validateCredit,
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        controller: _gradeController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Grade (4.0 scale)',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        validator: _validateGrade,
-                      ),
-                    ],
+                        SizedBox(height: 20), // Extra padding at the bottom
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Save or update course
-                    Navigator.pop(context, {
-                      'course': _courseController.text,
-                      'credits': _creditController.text,
-                      'grade': _gradeController.text,
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  widget.initialCourse == null ? 'Save Course' : 'Update Course',
-                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ],

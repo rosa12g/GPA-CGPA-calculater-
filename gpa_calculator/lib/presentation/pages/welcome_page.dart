@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'HomeScreen.dart';
+import '../widgets/gradient_button.dart';
+import 'home_page.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.grey[900]!,
-              Colors.blueGrey[900]!,
+              Color(0xFF1A1A1A),
+              Color(0xFF263238),
             ],
           ),
         ),
@@ -25,34 +28,34 @@ class WelcomeScreen extends StatelessWidget {
                 // Animated Icon
                 Hero(
                   tag: 'school_icon',
-                  child: Icon(
+                  child: const Icon(
                     Icons.school,
                     size: 120,
                     color: Colors.cyanAccent,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // App Name with Gradient
                 ShaderMask(
-                  shaderCallback: (bounds) => LinearGradient(
+                  shaderCallback: (bounds) => const LinearGradient(
                     colors: [Colors.cyanAccent, Colors.greenAccent],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ).createShader(bounds),
-                  child: Text(
+                  child: const Text(
                     'GradeMaster',
                     style: TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Base color for ShaderMask
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Tagline
-                Text(
+                const Text(
                   'Your Academic Success, Amplified',
                   style: TextStyle(
                     color: Colors.white70,
@@ -60,43 +63,17 @@ class WelcomeScreen extends StatelessWidget {
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
 
                 // Get Started Button with Animation
-                ElevatedButton(
+                GradientButton(
+                  text: 'Get Started',
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    elevation: 10,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.cyanAccent, Colors.greenAccent],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                    child: Text(
-                      'Get Started',
-                      style: TextStyle(
-                        color: Colors.grey[900],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
