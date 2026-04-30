@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../shared/models/course.dart';
 import '../../core/constants/app_constants.dart';
+import '../models/course.dart';
 import 'gradient_button.dart';
 
 class SemesterCard extends StatelessWidget {
@@ -26,7 +26,9 @@ class SemesterCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 12.0),
       elevation: AppConstants.cardElevation,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppConstants.borderRadius)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+      ),
       color: Colors.grey[850],
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -59,19 +61,23 @@ class SemesterCard extends StatelessWidget {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('Course', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                          child: Text('Course',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('Credits', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                          child: Text('Credits',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('Grade', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                          child: Text('Grade',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                          child: Text('Actions',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                         ),
                       ],
                     ),
@@ -80,24 +86,18 @@ class SemesterCard extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              courses[i].name,
-                              style: const TextStyle(color: Colors.white70),
-                            ),
+                            child: Text(courses[i].name,
+                                style: const TextStyle(color: Colors.white70)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              courses[i].credits.toString(),
-                              style: const TextStyle(color: Colors.white70),
-                            ),
+                            child: Text(courses[i].credits.toString(),
+                                style: const TextStyle(color: Colors.white70)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              courses[i].grade.toStringAsFixed(2),
-                              style: const TextStyle(color: Colors.white70),
-                            ),
+                            child: Text(courses[i].grade.toStringAsFixed(2),
+                                style: const TextStyle(color: Colors.white70)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(4.0),

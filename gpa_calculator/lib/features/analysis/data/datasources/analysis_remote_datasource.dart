@@ -16,7 +16,6 @@ class AnalysisRemoteDataSourceImpl implements AnalysisRemoteDataSource {
   @override
   Future<String> analyzeCourses(Map<String, double> grades) async {
     try {
-      await dotenv.load();
       final apiKey = dotenv.env[AppConstants.geminiApiKey];
 
       if (apiKey == null) {

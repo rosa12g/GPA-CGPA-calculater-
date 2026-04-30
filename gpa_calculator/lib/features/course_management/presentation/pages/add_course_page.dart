@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../shared/models/course.dart';
-import '../../core/utils/validators.dart';
-import '../../core/constants/app_constants.dart';
-import '../widgets/gradient_button.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/utils/validators.dart';
+import '../../../../shared/models/course.dart';
+import '../../../../shared/widgets/gradient_button.dart';
 
 class AddCoursePage extends StatefulWidget {
   final int semester;
@@ -48,8 +49,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
         grade: double.parse(_gradeController.text),
         id: widget.initialCourse?.id,
       );
-      
-      Navigator.pop(context, course);
+      context.pop(course);
     }
   }
 
@@ -77,10 +77,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF1A1A1A),
-              Color(0xFF263238),
-            ],
+            colors: [Color(0xFF1A1A1A), Color(0xFF263238)],
           ),
         ),
         child: SafeArea(
@@ -178,7 +175,6 @@ class _AddCoursePageState extends State<AddCoursePage> {
                           text: widget.initialCourse == null ? 'Save Course' : 'Update Course',
                           onPressed: _saveCourse,
                         ),
-                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
